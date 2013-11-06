@@ -3,11 +3,11 @@ require 'spec_helper'
 describe "StaticPages" do
   subject {page}
 
-  describe "Home Page" do
-    before {visit root_path}
-    it{should have_content('Sample app')}
-    it{should have_title('m')}
-  end
+  # describe "Home Page" do
+  #   before {visit root_path}
+  #   it{should have_content('Sample app')}
+  #   it{should have_title('m')}
+  # end
 
   # describe "Help Page" do
   # 	it "Should have the content 'Help" do
