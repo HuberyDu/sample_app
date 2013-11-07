@@ -10,9 +10,12 @@ group :development, :test do
   gem 'rspec-rails', '2.13.1'
   gem 'guard-rspec', require: false
   gem 'spork-rails', '4.0.0'
+  gem 'pry'
+  gem 'pry-nav'
 end
 
 group :test do
+  gem 'factory_girl_rails', '4.2.1'
   gem 'selenium-webdriver', '2.35.1'
   gem 'capybara', '2.1.0'
 end
