@@ -18,7 +18,7 @@ describe "UserPages" do
 
   describe "when name is not present" do
   	before { @user.name = ''}
-	it{should_not be_valid }  	
+	  it{should_not be_valid }  	
   end
 
   describe "when email is not present" do
@@ -51,12 +51,6 @@ describe "UserPages" do
     end
   end
 
-  describe "signup page" do
-    subject{page}
-    before{ visit signup_path}
-    it{should have_content("Sign")}
-  end
-
   describe "profile page" do
     subject{page}
     let(:user){FactoryGirl.create(:user)}
@@ -78,14 +72,52 @@ describe "UserPages" do
     describe "with valid information" do
       before do
         fill_in "Name",         with:"User"
-        fill_in "Email",        with:"User@gmail.com"
+        fill_in "Email",        with:"duxiaolong92@gmail.com"
         fill_in "Password",     with:"user"
         fill_in "Confirmation", with:"user"
       end
-
       it "should create user" do
         expect{click_button submit}.to change(User,:count)
       end
+    end
+    describe "Authentication" do
+
+      subject { page }
+
+      describe "signin page" do
+        before { visit signin_path }
+
+        it { should have_content('Sign in') }
+        it { should have_title('Sign in') }
+      end
+    end
+  
+    describe "signin" do
+      subject{page}
+      before{
+        visit signin_path
+        click_button "Sign in"}
+        
+      describe "with invalid information" do
+        it { should have_selector('div.alert.alert-error', text: 'Invalid') }
+      end
+
+      describe "with valid information" do
+        let(:user){FactoryGirl.create(:user)}
+        before{
+          fill_in "Email", with: user.email.upcase
+          fill_in "Password", with: user.password
+          click_button "Sign in"
+        }
+      end
+
+
+    end
+
+    describe "remember_token" do
+      before{@user.save}
+
+      it{expect(@user.remember_token).not_to be_blank}
     end
   end
 end
