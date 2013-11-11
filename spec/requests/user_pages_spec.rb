@@ -112,12 +112,14 @@ describe "UserPages" do
       end
 
 
-    end
+    end 
 
     describe "remember_token" do
       before{@user.save}
 
       it{expect(@user.remember_token).not_to be_blank}
     end
+
+    
   end
 end
