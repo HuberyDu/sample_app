@@ -119,21 +119,26 @@ describe "UserPages" do
 
       it{expect(@user.remember_token).not_to be_blank}
     end
+  end
 
-    describe "edit" do
-      let(:user){FactoryGirl.create(user)}
-      before{
-        visit edit_user_path(user)
-      }
+  describe "index" do
+    subject{page}
 
-      describe "page" do
-        it{should have_link('change', href:"http://gravatar.com/emails")}
+    describe "index" do
+      before do
+        sign_in FactoryGirl.create(:user)
+        FactoryGirl.create(:user, name: "bob", email: "bob@example.com")
+        FactoryGirl.create(:user, name: "ben", email: "ben@example.com")
+        visit users_path
       end
 
-      describe "with invalid information" do
-        before{click_button "Save change"}
+      it { should have_title('All users') }
+      it { should have_content('All users') }
 
-        it{should have_content("error")}
+      it "should list each user" do
+        User.all.each do |user|
+          expect(page).to have_selector('li', text: user.name)
+        end
       end
     end
   end
