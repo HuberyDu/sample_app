@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  has_many :microposts, dependent: :destroy
+
   before_create :create_remember_token
 
   def self.new_remember_token
@@ -21,6 +23,11 @@ class User < ActiveRecord::Base
   def current_user
     remember_token = User.encrypt(cookies[:remember_token])
     @current_user ||= User.find_by(remember_token: remember_token)
+  end
+
+  def feed
+    # This is preliminary. See "Following users" for the full implementation.
+    Micropost.where("user_id = ?", id)
   end
 
   private
